@@ -17,14 +17,14 @@
 PROGRAM simpson_integrator
   IMPLICIT NONE
 
-  REAL upper_limit, lower_limit, area, sum_of_odd_numbered_terms, sum_of_even_numbered_terms, h
+  REAL upper_limit, lower_limit, area, sum_of_odd_numbered_terms, sum_of_even_numbered_terms, h, y
   INTEGER n, i
 
   ! Function
   REAL f
 
-  PRINT *, "Enter upper limit, lower limit and number of sub-intervals: "
-  READ *, upper_limit, lower_limit, n
+  PRINT *, "Enter lower limit, upper limit and number of sub-intervals: "
+  READ *, lower_limit, upper_limit, n
 
   IF (mod(n, 2) /= 0) THEN
      PRINT *, "Number of intervals cannot be even!"
@@ -35,20 +35,19 @@ PROGRAM simpson_integrator
   h = (upper_limit - lower_limit) / n
 
   ! Calculating sum of odd numbered terms
-  n = n / 2
   sum_of_odd_numbered_terms = 0.0
   DO i = 1, n, 2
-     sum_of_odd_numbered_terms = sum_of_odd_numbered_terms + f(lower_limit + h * i)
+     sum_of_odd_numbered_terms = sum_of_odd_numbered_terms + f(lower_limit + i * h)
   END DO
 
   ! Calculating sum of even numbered terms
   sum_of_even_numbered_terms = 0.0
   n = n - 1
   DO i = 2, n, 2
-     sum_of_even_numbered_terms = sum_of_even_numbered_terms + f(lower_limit + h * i)
+     sum_of_even_numbered_terms = sum_of_even_numbered_terms + f(lower_limit + i * h)
   END DO
 
   area = (f(lower_limit) + f(upper_limit) + 4.0 * sum_of_odd_numbered_terms + 2.0 * sum_of_even_numbered_terms) * h / 3.0
 
-  PRINT *, "Area = ", area
+  PRINT *, "Approximate area from x = ", lower_limit, " to x = ", upper_limit, " is ", area
 END PROGRAM simpson_integrator
