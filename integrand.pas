@@ -25,8 +25,14 @@ IMPLEMENTATION
 
 FUNCTION f(x : real) : real;
 
+    FUNCTION tan(x : real) : real;
+
+    BEGIN
+        tan := sin(x) / cos(x)
+    END;
+
 BEGIN
-    f := x * exp(cos(x))
+    f := x * tan(x)
 END;
 
 END.

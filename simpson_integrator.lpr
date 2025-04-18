@@ -22,31 +22,39 @@ USES
 
 VAR
     sum_of_odd_numbered_terms, sum_of_even_numbered_terms, interval_size, area, lower_limit, upper_limit : real;
-    number_of_intervals, index : integer;
+    index, n, number_of_intervals : 1 .. maxint;
 
 BEGIN
+    writeln('Enter lower limit, upper limit and number of intervals:-');
     read(lower_limit, upper_limit, number_of_intervals);
 
-    interval_size := (upper_limit + lower_limit) / real(number_of_intervals);
+    IF odd(number_of_intervals) THEN
+      BEGIN
+        writeln('Number of interval must be even!')
+      END
+    ELSE
+      BEGIN
+        interval_size := (upper_limit - lower_limit) / real(number_of_intervals);
 
-    sum_of_odd_numbered_terms := 0.0;
-    index := 2;
-    WHILE index <= number_of_intervals DIV 2 DO
-    BEGIN
-        sum_of_odd_numbered_terms := sum_of_odd_numbered_terms + f(lower_limit + index * interval_size);
-        index := index + 2
-    END;
+        sum_of_odd_numbered_terms := 0.0;
+        n := 1;
+        FOR index := 1 TO number_of_intervals DIV 2 DO
+        BEGIN
+            sum_of_odd_numbered_terms := sum_of_odd_numbered_terms + f(lower_limit + index * interval_size);
+            n := n + 2
+        END;
 
-    sum_of_even_numbered_terms := 0.0;
-    index := 1;
-    WHILE index <= number_of_intervals DIV 2 - 1 DO
-    BEGIN
-        sum_of_even_numbered_terms := sum_of_even_numbered_terms + f(lower_limit + index * interval_size);
-        index := index + 2
-    END;
+        sum_of_even_numbered_terms := 0.0;
+        n := 2;
+        FOR index := 1 TO number_of_intervals DIV 2 - 1 DO
+        BEGIN
+            sum_of_even_numbered_terms := sum_of_even_numbered_terms + f(lower_limit + n * interval_size);
+            n := n + 2
+        END;
 
-    area := f(lower_limit) + f(upper_limit) + 4.0 * sum_of_odd_numbered_terms + 2.0 * sum_of_even_numbered_terms;
+        area := (interval_size / 3.0) * (f(lower_limit) + f(upper_limit) + 4.0 * sum_of_odd_numbered_terms + 2.0 * sum_of_even_numbered_terms);
 
-    writeln(area)
+        writeln('Approximate area between x = ', upper_limit,' and x = ', lower_limit,' is ', area)
+      END
 END.
 
